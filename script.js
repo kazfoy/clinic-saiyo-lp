@@ -191,36 +191,22 @@ function submitForm() {
   submitButton.textContent = '送信中...';
   submitButton.disabled = true;
 
-  // 送信データ整形（プリフライト回避のため x-www-form-urlencoded）
-  const fd = new FormData(form);
-  // 便利情報：参照ページURLを添付
-  fd.append('page', window.location.href);
-  const obj = Object.fromEntries(fd.entries());
-  const params = new URLSearchParams();
-  Object.keys(obj).forEach(k => params.append(k, obj[k]));
+  // 参照ページURLを設定
+  const pageField = form.querySelector('input[name="page"]');
+  if (pageField) {
+    pageField.value = window.location.href;
+  }
 
-  fetch(GAS_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-    body: params.toString()
-  })
-  .then(res => {
-    // GASは成功時でもCORSエラーになることがあるため、到達したら成功とみなす
-    return res.text().catch(() => '');
-  })
-  .then(() => {
+  // フォーム送信（iframeにターゲット設定済み）
+  form.submit();
+
+  // 送信後の処理（即座に成功扱い）
+  setTimeout(() => {
     showSuccessMessage();
     form.reset();
-  })
-  .catch((error) => {
-    // ネットワークエラーなど明らかな失敗の場合のみアラート表示
-    console.error('Form submission error:', error);
-    alert('送信に失敗しました。時間をおいて再度お試しください。');
-  })
-  .finally(() => {
     submitButton.textContent = originalText;
     submitButton.disabled = false;
-  });
+  }, 1000);
 }
 
 function showSuccessMessage() {

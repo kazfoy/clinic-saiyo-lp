@@ -368,7 +368,7 @@
                     </div>
                 </div>
                 
-                <form class="contact-form" id="contactForm">
+                <form class="contact-form" id="contactForm" action="https://script.google.com/macros/s/AKfycbzxtMF5dWlmvngH5E9M1Sv9hQUmcO2aAjZk-ys3RYIPCfHyaJ61rGs3O8KWA7hP8BIC/exec" method="POST" target="formTarget">
                     <div class="form-row">
                         <div class="form-group">
                             <label for="company">クリニック名 <span class="required">*</span></label>
@@ -409,6 +409,7 @@
                     </div>
                     
                     <!-- ハニーポット（ボット除け・ユーザーには不可視） -->
+                    <input type="hidden" name="page">
                     <input type="text" name="website" class="hp-field" autocomplete="off" tabindex="-1" aria-hidden="true">
                     
                     <div class="form-submit">
@@ -437,6 +438,7 @@
         </div>
     </footer>
 
+    <iframe name="formTarget" style="display:none;"></iframe>
     <script src="script.js"></script>
 </body>
 </html>
