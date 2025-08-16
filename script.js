@@ -191,22 +191,31 @@ function submitForm() {
   submitButton.textContent = '送信中...';
   submitButton.disabled = true;
 
-  // 参照ページURLを設定
-  const pageField = form.querySelector('input[name="page"]');
-  if (pageField) {
-    pageField.value = window.location.href;
-  }
+  // 送信データ
+  const fd = new FormData(form);
+  fd.append('page', window.location.href);
+  const obj = Object.fromEntries(fd.entries());
+  const params = new URLSearchParams();
+  Object.keys(obj).forEach(k => params.append(k, obj[k]));
 
-  // フォーム送信（iframeにターゲット設定済み）
-  form.submit();
-
-  // 送信後の処理（即座に成功扱い）
-  setTimeout(() => {
+  fetch(GAS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+    body: params.toString(),
+    mode: 'no-cors' // ← CORSの可視化を捨てて確実に送る
+  })
+  // no-cors ではレスポンスを読めないため、成功UIは then 側で必ず出す
+  .then(() => {
     showSuccessMessage();
     form.reset();
+  })
+  .catch(() => {
+    alert('通信に失敗しました。時間をおいて再度お試しください。');
+  })
+  .finally(() => {
     submitButton.textContent = originalText;
     submitButton.disabled = false;
-  }, 1000);
+  });
 }
 
 function showSuccessMessage() {
