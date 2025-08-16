@@ -408,6 +408,9 @@
                         <textarea id="message" name="message" rows="5" placeholder="採用したい職種や現在の採用課題をお聞かせください"></textarea>
                     </div>
                     
+                    <!-- ハニーポット（ボット除け・ユーザーには不可視） -->
+                    <input type="text" name="website" class="hp-field" autocomplete="off" tabindex="-1" aria-hidden="true">
+                    
                     <div class="form-submit">
                         <button type="submit" class="cta-btn-primary">無料相談を申し込む</button>
                         <p class="form-note">送信後、24時間以内にご連絡いたします</p>
@@ -426,8 +429,6 @@
                     <p>クリニック専門採用支援サービス</p>
                 </div>
                 <div class="footer-contact">
-                    <p><i class="fas fa-envelope"></i> info@clinic-jinji.jp</p>
-                    <p><i class="fas fa-phone"></i> 03-1234-5678</p>
                 </div>
             </div>
             <div class="footer-bottom">

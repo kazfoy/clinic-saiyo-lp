@@ -56,7 +56,7 @@ body {
     text-decoration: none;
     color: #333;
     font-weight: 500;
-    transition: color 0.3s ease;
+    transition: color 0.2s ease;
 }
 
 .nav a:hover {
@@ -154,12 +154,13 @@ body {
     text-decoration: none;
     font-weight: 600;
     font-size: 1.1rem;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+    will-change: transform;
 }
 
 .cta-btn-primary:hover {
-    transform: translateY(-2px);
+    transform: translate3d(0, -2px, 0);
     box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
 }
 
@@ -172,7 +173,7 @@ body {
     text-decoration: none;
     font-weight: 600;
     font-size: 1.1rem;
-    transition: all 0.3s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .cta-btn-secondary:hover {
@@ -230,11 +231,12 @@ body {
     border-radius: 15px;
     text-align: center;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease;
+    transition: transform 0.2s ease;
+    will-change: transform;
 }
 
 .problem-item:hover {
-    transform: translateY(-5px);
+    transform: translate3d(0, -5px, 0);
 }
 
 .problem-icon {
@@ -271,12 +273,13 @@ body {
     padding: 2.5rem;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     border: 1px solid #e0e0e0;
+    will-change: transform;
 }
 
 .service-item:hover {
-    transform: translateY(-8px);
+    transform: translate3d(0, -8px, 0);
     box-shadow: 0 15px 40px rgba(46, 125, 50, 0.15);
 }
 
@@ -394,14 +397,15 @@ body {
     padding: 2rem;
     text-align: center;
     position: relative;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, border-color 0.2s ease;
     display: flex;
     flex-direction: column;
     height: 100%;
+    will-change: transform;
 }
 
 .pricing-item:hover {
-    transform: translateY(-5px);
+    transform: translate3d(0, -5px, 0);
     border-color: #4caf50;
 }
 
@@ -476,7 +480,7 @@ body {
     border-radius: 50px;
     text-decoration: none;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .cta-btn-outline:hover {
@@ -520,7 +524,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.2s ease;
 }
 
 .faq-question:hover {
@@ -535,7 +539,8 @@ body {
 
 .faq-question i {
     color: #2e7d32;
-    transition: transform 0.3s ease;
+    transition: transform 0.2s ease;
+    will-change: transform;
 }
 
 .faq-answer {
@@ -629,6 +634,7 @@ body {
 .form-group textarea:focus {
     outline: none;
     border-color: #4caf50;
+    transition: border-color 0.15s ease;
 }
 
 .form-submit {
@@ -644,12 +650,13 @@ body {
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+    will-change: transform;
 }
 
 .form-submit button:hover {
-    transform: translateY(-2px);
+    transform: translate3d(0, -2px, 0);
     box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
 }
 
@@ -710,7 +717,8 @@ body {
     height: 3px;
     background: #2e7d32;
     margin: 3px 0;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
+    will-change: transform;
 }
 
 .mobile-menu-button.active span:nth-child(1) {
@@ -744,8 +752,9 @@ body {
         align-items: flex-start;
         padding: 6rem 2rem 2rem;
         box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-        transition: right 0.3s ease;
+        transition: right 0.25s ease;
         z-index: 1000;
+        will-change: transform;
     }
     
     .nav.active {
@@ -855,11 +864,11 @@ body {
 @keyframes fadeInUp {
     from {
         opacity: 0;
-        transform: translateY(30px);
+        transform: translate3d(0, 30px, 0);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translate3d(0, 0, 0);
     }
 }
 
@@ -868,5 +877,16 @@ body {
 .service-item,
 .testimonial-item,
 .pricing-item {
-    animation: fadeInUp 0.6s ease-out;
+    will-change: transform, opacity;
+    animation: fadeInUp 0.4s ease-out;
+}
+
+/* Honeypot field (bot trap) */
+.hp-field{
+  position:absolute;
+  left:-9999px;
+  width:1px;
+  height:1px;
+  opacity:0;
+  pointer-events:none;
 }

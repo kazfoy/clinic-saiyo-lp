@@ -1,3 +1,6 @@
+// === GAS Web App Endpoint ===
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzxtMF5dWlmvngH5E9M1Sv9hQUmcO2aAjZk-ys3RYIPCfHyaJ61rGs3O8KWA7hP8BIC/exec';
+
 // DOM Content Loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize all functions
@@ -71,7 +74,7 @@ function initContactForm() {
             // Basic validation
             if (validateForm(data)) {
                 // Simulate form submission
-                submitForm(data);
+                submitForm();
             }
         });
         
@@ -180,26 +183,44 @@ function isValidEmail(email) {
 }
 
 // Form submission
-function submitForm(data) {
-    const submitButton = document.querySelector('.form-submit button');
-    const originalText = submitButton.textContent;
-    
-    // Show loading state
-    submitButton.textContent = '送信中...';
-    submitButton.disabled = true;
-    
-    // Simulate API call
-    setTimeout(() => {
-        // Show success message
-        showSuccessMessage();
-        
-        // Reset form
-        document.getElementById('contactForm').reset();
-        
-        // Reset button
-        submitButton.textContent = originalText;
-        submitButton.disabled = false;
-    }, 2000);
+function submitForm() {
+  const form = document.getElementById('contactForm');
+  const submitButton = document.querySelector('.form-submit button');
+  const originalText = submitButton.textContent;
+
+  submitButton.textContent = '送信中...';
+  submitButton.disabled = true;
+
+  // 送信データ整形（プリフライト回避のため x-www-form-urlencoded）
+  const fd = new FormData(form);
+  // 便利情報：参照ページURLを添付
+  fd.append('page', window.location.href);
+  const obj = Object.fromEntries(fd.entries());
+  const params = new URLSearchParams();
+  Object.keys(obj).forEach(k => params.append(k, obj[k]));
+
+  fetch(GAS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+    body: params.toString()
+  })
+  .then(res => {
+    // GASは成功時でもCORSエラーになることがあるため、到達したら成功とみなす
+    return res.text().catch(() => '');
+  })
+  .then(() => {
+    showSuccessMessage();
+    form.reset();
+  })
+  .catch((error) => {
+    // ネットワークエラーなど明らかな失敗の場合のみアラート表示
+    console.error('Form submission error:', error);
+    alert('送信に失敗しました。時間をおいて再度お試しください。');
+  })
+  .finally(() => {
+    submitButton.textContent = originalText;
+    submitButton.disabled = false;
+  });
 }
 
 function showSuccessMessage() {
@@ -235,7 +256,7 @@ function showSuccessMessage() {
         <h3 style="color: #1b5e20; margin-bottom: 1rem;">送信完了</h3>
         <p style="color: #666; margin-bottom: 2rem;">
             お問い合わせありがとうございます。<br>
-            24時間以内にご連絡いたします。
+            営業担当からの連絡をお待ち下さい。
         </p>
         <button onclick="this.closest('.success-overlay').remove()" 
                 style="background: #4caf50; color: white; border: none; padding: 0.75rem 2rem; 
@@ -248,12 +269,12 @@ function showSuccessMessage() {
     overlay.appendChild(modal);
     document.body.appendChild(overlay);
     
-    // Auto close after 5 seconds
+    // Auto close after 3 seconds
     setTimeout(() => {
         if (overlay.parentNode) {
             overlay.remove();
         }
-    }, 5000);
+    }, 3000);
 }
 
 // Scroll Effects
@@ -261,7 +282,7 @@ function initScrollEffects() {
     const header = document.querySelector('.header');
     let lastScrollTop = 0;
     
-    window.addEventListener('scroll', function() {
+    const throttledScroll = throttle(function() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
         // Header background on scroll
@@ -274,21 +295,24 @@ function initScrollEffects() {
         }
         
         lastScrollTop = scrollTop;
-    });
+    }, 16);
+    
+    window.addEventListener('scroll', throttledScroll, { passive: true });
 }
 
 // Animation on Scroll
 function initAnimations() {
     const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        threshold: 0.15,
+        rootMargin: '0px 0px -100px 0px'
     };
     
     const observer = new IntersectionObserver(function(entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+                entry.target.style.transform = 'translate3d(0, 0, 0)';
+                entry.target.style.willChange = 'auto';
             }
         });
     }, observerOptions);
@@ -304,8 +328,9 @@ function initAnimations() {
     
     animatedElements.forEach((el, index) => {
         el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = `all 0.6s ease ${index * 0.1}s`;
+        el.style.transform = 'translate3d(0, 30px, 0)';
+        el.style.transition = `opacity 0.4s ease ${index * 0.08}s, transform 0.4s ease ${index * 0.08}s`;
+        el.style.willChange = 'transform, opacity';
         observer.observe(el);
     });
 }
@@ -351,7 +376,9 @@ function animateNumber(element, start, end, duration) {
             clearInterval(timer);
         }
         
-        element.innerHTML = prefix + Math.floor(current) + (suffix ? `<span>${suffix}</span>` : '');
+        requestAnimationFrame(() => {
+            element.innerHTML = prefix + Math.floor(current) + (suffix ? `<span>${suffix}</span>` : '');
+        });
     }, 16);
 }
 
@@ -388,6 +415,20 @@ function debounce(func, wait) {
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
     };
+}
+
+// Utility function to throttle scroll events
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    }
 }
 
 // Initialize stats animation after DOM is loaded
