@@ -191,9 +191,8 @@ function submitForm() {
   submitButton.textContent = '送信中...';
   submitButton.disabled = true;
 
-  // 送信データ整形（プリフライト回避のため x-www-form-urlencoded）
+  // 送信データ
   const fd = new FormData(form);
-  // 便利情報：参照ページURLを添付
   fd.append('page', window.location.href);
   const obj = Object.fromEntries(fd.entries());
   const params = new URLSearchParams();
@@ -202,20 +201,16 @@ function submitForm() {
   fetch(GAS_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-    body: params.toString()
+    body: params.toString(),
+    mode: 'no-cors' // ← CORSの可視化を捨てて確実に送る
   })
-  .then(res => {
-    // GASは成功時でもCORSエラーになることがあるため、到達したら成功とみなす
-    return res.text().catch(() => '');
-  })
+  // no-cors ではレスポンスを読めないため、成功UIは then 側で必ず出す
   .then(() => {
     showSuccessMessage();
     form.reset();
   })
-  .catch((error) => {
-    // ネットワークエラーなど明らかな失敗の場合のみアラート表示
-    console.error('Form submission error:', error);
-    alert('送信に失敗しました。時間をおいて再度お試しください。');
+  .catch(() => {
+    alert('通信に失敗しました。時間をおいて再度お試しください。');
   })
   .finally(() => {
     submitButton.textContent = originalText;
