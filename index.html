@@ -34,29 +34,31 @@
     <!-- First View -->
     <section class="hero">
         <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h2 class="hero-title">クリニックの<span class="highlight">採用課題を解決</span>する<br>専門採用支援サービス</h2>
-                    <p class="hero-subtitle">医師・看護師・医療スタッフの採用を月10万円からサポート。<br>平均30日で優秀な人材の確保を実現します</p>
-                    
-                    <div class="hero-stats">
-                        <div class="stat-item">
-                            <div class="stat-number">200<span>院</span></div>
-                            <div class="stat-label">導入実績</div>
+            <div class="hero-inner">
+                <div class="hero-content">
+                    <div class="hero-text">
+                        <h2 class="hero-title hero__title">クリニックの<span class="highlight">採用課題を解決</span>する<br>専門採用支援サービス</h2>
+                        <p class="hero-sub hero__sub">医師・看護師・医療スタッフの採用を月10万円からサポート。<br>平均30日で優秀な人材の確保を実現します</p>
+                        
+                        <div class="hero__metrics">
+                            <div class="hero__metric metric-animate">
+                                <div class="num"><span class="em" data-count-to="200" data-duration="1200">200</span><span class="unit">院</span></div>
+                                <div class="label">導入実績</div>
+                            </div>
+                            <div class="hero__metric metric-animate">
+                                <div class="num"><span class="em" data-count-to="95" data-duration="1200">95</span><span class="unit">%</span></div>
+                                <div class="label">定着率</div>
+                            </div>
+                            <div class="hero__metric metric-animate">
+                                <div class="num"><span class="prefix">平均</span><span class="em" data-count-to="30" data-duration="1200">30</span><span class="unit">日</span></div>
+                                <div class="label">採用期間</div>
+                            </div>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-number">95<span>%</span></div>
-                            <div class="stat-label">定着率</div>
+                        
+                        <div class="hero-cta hero__ctaGroup">
+                            <a href="#contact" class="cta-btn-primary">無料相談を予約する</a>
+                            <a href="#services" class="cta-btn-secondary">サービス詳細を見る</a>
                         </div>
-                        <div class="stat-item">
-                            <div class="stat-number">平均30<span>日</span></div>
-                            <div class="stat-label">採用期間</div>
-                        </div>
-                    </div>
-                    
-                    <div class="hero-cta">
-                        <a href="#contact" class="cta-btn-primary">無料相談を予約する</a>
-                        <a href="#services" class="cta-btn-secondary">サービス詳細を見る</a>
                     </div>
                 </div>
             </div>
@@ -68,40 +70,50 @@
         <div class="container">
             <h2 class="section-title">こんなお悩みありませんか？</h2>
             <div class="problems-grid">
-                <div class="problem-item">
+                <div class="problem-item problem-card">
                     <div class="problem-icon">
-                        <i class="fas fa-chart-line-down"></i>
+                        <i class="fas fa-user-times"></i>
                     </div>
-                    <h3>良い人材が採用できない</h3>
-                    <p>求人を出しても応募が少なく、応募があっても求めるスキルを持った人材に出会えない</p>
+                    <div class="problem-text">
+                        <h3>良い人材が採用できない</h3>
+                        <p>求人を出しても応募が少なく、応募があっても求めるスキルを持った人材に出会えない</p>
+                    </div>
                 </div>
-                <div class="problem-item">
+                <div class="problem-item problem-card">
                     <div class="problem-icon">
                         <i class="fas fa-search-minus"></i>
                     </div>
-                    <h3>採用コストが高すぎる</h3>
-                    <p>求人広告費や人材紹介手数料が高額で、採用にかかる費用が経営を圧迫している</p>
+                    <div class="problem-text">
+                        <h3>採用コストが高すぎる</h3>
+                        <p>求人広告費や人材紹介手数料が高額で、採用にかかる費用が経営を圧迫している</p>
+                    </div>
                 </div>
-                <div class="problem-item">
+                <div class="problem-item problem-card">
                     <div class="problem-icon">
                         <i class="fas fa-clock"></i>
                     </div>
-                    <h3>採用活動に時間が取れない</h3>
-                    <p>診療業務が忙しく、求人対応や面接調整まで手が回らない</p>
+                    <div class="problem-text">
+                        <h3>採用活動に時間が取れない</h3>
+                        <p>診療業務が忙しく、求人対応や面接調整まで手が回らない</p>
+                    </div>
                 </div>
-                <div class="problem-item">
+                <div class="problem-item problem-card">
                     <div class="problem-icon">
                         <i class="fas fa-question-circle"></i>
                     </div>
-                    <h3>採用ノウハウがない</h3>
-                    <p>効果的な求人の書き方や面接方法がわからず、せっかくの応募者を逃してしまう</p>
+                    <div class="problem-text">
+                        <h3>採用ノウハウがない</h3>
+                        <p>効果的な求人の書き方や面接方法がわからず、せっかくの応募者を逃してしまう</p>
+                    </div>
                 </div>
-                <div class="problem-item">
+                <div class="problem-item problem-card">
                     <div class="problem-icon">
                         <i class="fas fa-money-bill-wave"></i>
                     </div>
-                    <h3>スタッフが定着しない</h3>
-                    <p>せっかく採用しても短期間で離職してしまい、常に人手不足に悩まされている</p>
+                    <div class="problem-text">
+                        <h3>スタッフが定着しない</h3>
+                        <p>せっかく採用しても短期間で離職してしまい、常に人手不足に悩まされている</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -219,73 +231,70 @@
             <p class="section-subtitle">クリニックの規模と採用ニーズに合わせて選べる3つのプラン</p>
             
             <div class="pricing-grid">
-                <div class="pricing-item">
-                    <div class="pricing-header">
-                        <h3>ベーシックプラン</h3>
-                        <div class="price">
-                            <span class="price-amount">¥100,000</span>
-                            <span class="price-period">/月</span>
-                        </div>
-                    </div>
-                    <div class="pricing-features">
+                <div class="plan">
+                    <h3 class="plan__title">ベーシックプラン</h3>
+                    <p class="plan__price">
+                        <span class="plan__currency">¥</span>
+                        <span class="plan__amount">100,000</span>
+                        <span class="plan__per">/月</span>
+                    </p>
+                    <div class="plan__features">
                         <ul>
-                            <li><i class="fas fa-check"></i>看護師・医療事務スタッフ採用</li>
-                            <li><i class="fas fa-check"></i>月2名までの人材紹介</li>
-                            <li><i class="fas fa-check"></i>求人票作成サポート</li>
-                            <li><i class="fas fa-check"></i>基本的な面接調整</li>
-                            <li><i class="fas fa-check"></i>月次採用レポート</li>
+                            <li>看護師・医療事務スタッフ採用</li>
+                            <li>月2名までの人材紹介</li>
+                            <li>求人票作成サポート</li>
+                            <li>基本的な面接調整</li>
+                            <li>月次採用レポート</li>
                         </ul>
                     </div>
-                    <div class="pricing-cta">
+                    <div class="plan__cta">
                         <a href="#contact" class="cta-btn-outline">相談する</a>
                     </div>
                 </div>
                 
-                <div class="pricing-item featured">
-                    <div class="pricing-badge">おすすめ</div>
-                    <div class="pricing-header">
-                        <h3>スタンダードプラン</h3>
-                        <div class="price">
-                            <span class="price-amount">¥200,000</span>
-                            <span class="price-period">/月</span>
-                        </div>
-                    </div>
-                    <div class="pricing-features">
+                <div class="plan plan--featured">
+                    <span class="plan__badge">おすすめ</span>
+                    <h3 class="plan__title">スタンダードプラン</h3>
+                    <p class="plan__price">
+                        <span class="plan__currency">¥</span>
+                        <span class="plan__amount">200,000</span>
+                        <span class="plan__per">/月</span>
+                    </p>
+                    <div class="plan__features">
                         <ul>
-                            <li><i class="fas fa-check"></i>看護師・スタッフ採用サポート</li>
-                            <li><i class="fas fa-check"></i>看護師・医療事務採用</li>
-                            <li><i class="fas fa-check"></i>月5名までの人材紹介</li>
-                            <li><i class="fas fa-check"></i>求人最適化コンサルティング</li>
-                            <li><i class="fas fa-check"></i>面接練習・サポート</li>
-                            <li><i class="fas fa-check"></i>入社後フォロー体制</li>
-                            <li><i class="fas fa-check"></i>詳細採用分析レポート</li>
+                            <li>看護師・スタッフ採用サポート</li>
+                            <li>看護師・医療事務採用</li>
+                            <li>月5名までの人材紹介</li>
+                            <li>求人最適化コンサルティング</li>
+                            <li>面接練習・サポート</li>
+                            <li>入社後フォロー体制</li>
+                            <li>詳細採用分析レポート</li>
                         </ul>
                     </div>
-                    <div class="pricing-cta">
+                    <div class="plan__cta">
                         <a href="#contact" class="cta-btn-primary">相談する</a>
                     </div>
                 </div>
                 
-                <div class="pricing-item">
-                    <div class="pricing-header">
-                        <h3>プレミアムプラン</h3>
-                        <div class="price">
-                            <span class="price-amount">¥350,000</span>
-                            <span class="price-period">/月</span>
-                        </div>
-                    </div>
-                    <div class="pricing-features">
+                <div class="plan">
+                    <h3 class="plan__title">プレミアムプラン</h3>
+                    <p class="plan__price">
+                        <span class="plan__currency">¥</span>
+                        <span class="plan__amount">350,000</span>
+                        <span class="plan__per">/月</span>
+                    </p>
+                    <div class="plan__features">
                         <ul>
-                            <li><i class="fas fa-check"></i>全職種採用フルサポート</li>
-                            <li><i class="fas fa-check"></i>専任採用コンサルタント配置</li>
-                            <li><i class="fas fa-check"></i>カスタム採用戦略立案</li>
-                            <li><i class="fas fa-check"></i>無制限人材紹介</li>
-                            <li><i class="fas fa-check"></i>経営コンサルティング</li>
-                            <li><i class="fas fa-check"></i>24時間緊急サポート</li>
-                            <li><i class="fas fa-check"></i>クリニック特化採用システム</li>
+                            <li>全職種採用フルサポート</li>
+                            <li>専任採用コンサルタント配置</li>
+                            <li>カスタム採用戦略立案</li>
+                            <li>無制限人材紹介</li>
+                            <li>経営コンサルティング</li>
+                            <li>24時間緊急サポート</li>
+                            <li>クリニック特化採用システム</li>
                         </ul>
                     </div>
-                    <div class="pricing-cta">
+                    <div class="plan__cta">
                         <a href="#contact" class="cta-btn-outline">相談する</a>
                     </div>
                 </div>
@@ -387,7 +396,7 @@
                         </div>
                         <div class="form-group">
                             <label for="phone">電話番号</label>
-                            <input type="tel" id="phone" name="phone">
+                            <input type="tel" id="phone" name="phone" inputmode="numeric">
                         </div>
                     </div>
                     
@@ -437,6 +446,13 @@
             </div>
         </div>
     </footer>
+
+    <!-- Mobile Sticky CTA -->
+    <div class="mobile-sticky-cta">
+        <button class="btn cta-btn-primary" onclick="document.getElementById('contactForm').scrollIntoView({behavior:'smooth'})">
+            無料相談を申し込む
+        </button>
+    </div>
 
     <iframe name="formTarget" style="display:none;"></iframe>
     <script src="script.js"></script>

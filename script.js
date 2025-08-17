@@ -16,6 +16,12 @@ document.addEventListener('DOMContentLoaded', function() {
 function initFAQ() {
     const faqItems = document.querySelectorAll('.faq-item');
     
+    // 初期化：各 .faq-question に role="button" と aria-expanded="false" を付与
+    document.querySelectorAll('.faq-question').forEach(q=>{
+        q.setAttribute('role','button');
+        q.setAttribute('aria-expanded','false');
+    });
+    
     faqItems.forEach(item => {
         const question = item.querySelector('.faq-question');
         
@@ -25,11 +31,21 @@ function initFAQ() {
             // Close all FAQ items
             faqItems.forEach(faqItem => {
                 faqItem.classList.remove('active');
+                const btn = faqItem.querySelector('.faq-question');
+                if (btn){
+                    btn.setAttribute('aria-expanded', 'false');
+                }
             });
             
             // Toggle current item
             if (!isActive) {
                 item.classList.add('active');
+            }
+            
+            // Toggle current item 後に追記：
+            const btn = item.querySelector('.faq-question');
+            if (btn){
+                btn.setAttribute('aria-expanded', String(!isActive));
             }
         });
     });
@@ -384,7 +400,7 @@ function initMobileMenu() {
     
     if (mobileMenuButton && nav) {
         mobileMenuButton.addEventListener('click', function() {
-            nav.classList.toggle('active');
+            nav.classList.toggle('is-open');
             this.classList.toggle('active');
         });
         
@@ -392,7 +408,7 @@ function initMobileMenu() {
         const navLinks = nav.querySelectorAll('a');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
-                nav.classList.remove('active');
+                nav.classList.remove('is-open');
                 mobileMenuButton.classList.remove('active');
             });
         });
@@ -426,10 +442,11 @@ function throttle(func, limit) {
     }
 }
 
-// Initialize stats animation after DOM is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(initStatsAnimation, 500);
-});
+
+// Initialize stats animation after DOM is loaded - DISABLED (replaced by new counter animation)
+// document.addEventListener('DOMContentLoaded', function() {
+//     setTimeout(initStatsAnimation, 500);
+// });
 
 // Add some CSS for error states dynamically
 const style = document.createElement('style');
@@ -466,3 +483,54 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+
+// ===== ヒーロー実績カウントアップアニメーション =====
+(function(){
+  function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+
+  function countUp(el){
+    const to = parseFloat(el.getAttribute('data-count-to') || '0');
+    const from = parseFloat(el.getAttribute('data-count-from') || '0');
+    const duration = parseInt(el.getAttribute('data-duration') || '1200', 10);
+    const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reduce){ el.textContent = to.toFixed(decimals); return; }
+
+    let start = null;
+    const step = (ts)=>{
+      if(!start) start = ts;
+      const p = Math.min((ts - start) / duration, 1);
+      const val = from + (to - from) * easeOutCubic(p);
+      el.textContent = (decimals ? val.toFixed(decimals) : Math.round(val).toString());
+      if (p < 1) requestAnimationFrame(step);
+      else el.textContent = (decimals ? to.toFixed(decimals) : Math.round(to).toString());
+    };
+    // 視覚的な開始演出
+    el.closest('.hero__metric')?.classList.add('counting');
+    el.textContent = from.toFixed(decimals);
+    requestAnimationFrame(step);
+  }
+
+  function initCounters(){
+    const cards = document.querySelectorAll('.hero__metric');
+    if (!cards.length) return;
+
+    const obs = new IntersectionObserver((entries,observer)=>{
+      entries.forEach(entry=>{
+        const card = entry.target;
+        if (entry.isIntersecting && !card.classList.contains('is-counted')){
+          card.classList.add('is-visible');
+          const target = card.querySelector('.em[data-count-to]');
+          if (target){ countUp(target); }
+          card.classList.add('is-counted');
+          observer.unobserve(card);
+        }
+      });
+    },{ threshold: 0.4 });
+
+    cards.forEach(c=>obs.observe(c));
+  }
+
+  document.addEventListener('DOMContentLoaded', initCounters);
+})();
